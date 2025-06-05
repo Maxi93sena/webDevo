@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Learn to Make a Website</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f9;
+      color: #222;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(45deg, #4CAF50, #009688);
+      color: white;
+      padding: 20px 10px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+    nav {
+      margin-top: 15px;
+    }
+    nav a {
+      color: white;
+      font-weight: 700;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #c8e6c9;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    section {
+      background: white;
+      padding: 20px 30px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      transition: box-shadow 0.3s ease;
+    }
+    section:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+    }
+    section h2 {
+      color: #2e7d32;
+      border-bottom: 3px solid #4caf50;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+    }
+    pre {
+      background: #e4f1e1;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.95rem;
+    }
+    code {
+      white-space: pre-wrap;
+    }
+    ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+    .interactive, .generator {
+      background: #e8f5e9;
+      border-left: 6px solid #43a047;
+      padding: 15px 20px;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #2e7d32;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px 12px;
+      margin-top: 6px;
+      border-radius: 5px;
+      border: 1.8px solid #81c784;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      resize: vertical;
+    }
+    input[type="text"]:focus, textarea:focus {
+      border-color: #388e3c;
+      outline: none;
+    }
+    button {
+      margin-top: 20px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(76,175,80,0.6);
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background: #388e3c;
+      box-shadow: 0 6px 16px rgba(56,142,60,0.8);
+    }
+    textarea.generated-code {
+      background: #272822;
+      color: #f8f8f2;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.9rem;
+      height: 320px;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border: none;
+      resize: none;
+    }
+    footer {
+      background: linear-gradient(45deg, #4caf50, #009688);
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      font-weight: 600;
+      box-shadow: 0 -3px 8px rgba(0,0,0,0.15);
+      user-select: none;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav a {
+        display: block;
+        margin: 8px 0;
+        font-size: 1.3rem;
+      }
+      main {
+        margin: 20px 15px;
+        padding: 0 10px;
+      }
+    }
+    /* Chatbot styles */
+    .chat-container {
+      max-width: 600px;
+      margin: 1em auto;
+      border: 2px solid #4caf50;
+      border-radius: 10px;
+      background: #e8f5e9;
+      display: flex;
+      flex-direction: column;
+      height: 400px;
+      overflow: hidden;
+    }
+    .chat-messages {
+      flex-grow: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: white;
+      border-radius: 10px 10px 0 0;
+      font-size: 1rem;
+    }
+    .chat-message {
+      margin-bottom: 12px;
+    }
+    .chat-message.user {
+      text-align: right;
+      color: #2e7d32;
+      font-weight: 600;
+    }
+    .chat-message.bot {
+      text-align: left;
+      color: #1565c0;
+      font-weight: 600;
+    }
+    .chat-input-area {
+      display: flex;
+      border-top: 2px solid #4caf50;
+      padding: 10px;
+      background: #c8e6c9;
+      border-radius: 0 0 10px 10px;
+    }
+    .chat-input-area input[type="text"] {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .chat-input-area button {
+      margin-left: 10px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .chat-input-area button:hover {
+      background: #388e3c;
+    }
+    .chat-config {
+      margin-top: 15px;
+      padding: 10px;
+      background: #dcedc8;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .chat-config textarea {
+      width: 100%;
+      height: 80px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1.5px solid #81c784;
+      padding: 8px;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Learn to Make a Website</h1>
+    <nav>
+      <a href="#step1">Step 1</a>
+      <a href="#step2">Step 2</a>
+      <a href="#step3">Step 3</a>
+      <a href="#step4">Step 4</a>
+      <a href="#step5">Step 5</a>
+      <a href="#generator">Create Your Website</a>
+      <a href="#resources">Resources</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="step1">
+      <h2>Step 1: Planning Your Website</h2>
+      <p>Before you start coding, take some time to plan your website. What is it about? Who is your audience? What pages or features do you want?</p>
+      <div class="interactive">
+        <h3>Exercise:</h3>
+        <p>Write down your website's purpose and main topics or features:</p>
+        <textarea rows="5" cols="50" placeholder="E.g. My portfolio to showcase artwork and blog"></textarea>
+      </div>
+    </section>
+
+    <section id="step2">
+      <h2>Step 2: Basic HTML Structure</h2>
+      <p>HTML forms the structure and content of your website. It uses tags to define elements like headings, paragraphs, links, images, and more.</p>
+      <p>Here are some common HTML tags:</p>
+      <ul>
+        <li><code>&lt;h1&gt; &lt;/h1&gt;</code> - Main heading</li>
+        <li><code>&lt;p&gt; &lt;/p&gt;</code> - Paragraph text</li>
+        <li><code>&lt;a href="url"&gt; &lt;/a&gt;</code> - Link to another page or website</li>
+        <li><code>&lt;img src="image.jpg" alt="description"&gt;</code> - Image</li>
+        <li><code>&lt;ul&gt; &lt;li&gt; &lt;/li&gt; &lt;/ul&gt;</code> - Unordered list and list items</li>
+      </ul>
+      <p>Example of a simple webpage with these elements:</p>
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;My First Website&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome to My First Website&lt;/h1&gt;
+  &lt;p&gt;This is a paragraph introducing my site.&lt;/p&gt;
+
+  &lt;h2&gt;My Hobbies&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Drawing&lt;/li&gt;
+    &lt;li&gt;Playing guitar&lt;/li&gt;
+    &lt;li&gt;Coding&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;p&gt;Check out my &lt;a href="https://www.example.com" target="_blank"&gt;favorite website&lt;/a&gt;!&lt;/p&gt;
+
+  &lt;img src="https://via.placeholder.com/300" alt="Example Image"&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      <p>This shows how to build the page with headings, paragraphs, lists, links, and images.</p>
+    </section>
+
+    <section id="step3">
+      <h2>Step 3: Introduction to CSS</h2>
+      <p>CSS (Cascading Style Sheets) is used to style your HTML elements — colors, fonts, spacing, layout, and more.</p>
+      <p>You can add CSS inside your HTML using the <code>&lt;style&gt;</code> tag or in a separate file.</p>
+      <p>Basic CSS Syntax:</p>
+      <pre><code>selector {
+  property: value;
+}
+</code></pre>
+      <p>Example: Changing the background color and text styles</p>
+      <pre><code>body {
+  background-color: #f0f8ff;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+h1 {
+  color: #4CAF50;
+  text-align: center;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+</code></pre>
+      <p>Example explained:</p>
+      <ul>
+        <li><code>body</code> selector targets the whole page background and font.</li>
+        <li><code>h1</code> targets all main headings and colors them green and centers text.</li>
+        <li><code>p</code> targets all paragraphs, sets font size and spacing.</li>
+      </ul>
+      <p>You can apply CSS rules to make your website look beautiful and unique!</p>
+    </section>
+
+    <section id="step4">
+      <h2>Step 4: Adding Interactivity with JavaScript</h2>
+      <p>JavaScript lets you add interactive elements to your site. Let’s try building a simple AI chatbot that can respond to user messages.</p>
+      <p>This chatbot will have predefined responses and can be customized easily.</p>
+
+      <div class="chat-container" id="chatbot">
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-area">
+          <input type="text" id="chat-input" placeholder="Type your message..." aria-label="Chat input"/>
+          <button id="send-button">Send</button>
+        </div>
+      </div>
+
+      <div class="chat-config">
+        <h3>Customize your chatbot responses here (JSON format):</h3>
+        <textarea id="chatbot-json" aria-label="Chatbot responses JSON">{
+  "hello": "Hi there! How can I assist you today?",
+  "help": "I can help you learn how to make a website! Ask me anything.",
+  "about": "I'm a simple chatbot created with JavaScript to answer your questions.",
+  "default": "Sorry, I don't understand that yet. Try asking something else!"
+}</textarea>
+        <button id="update-responses">Update Responses</button>
+      </div>
+
+      <pre><code>
+// JavaScript logic is included below in the page script
+      </code></pre>
+      <p>Try typing messages like "hello", "help", or "about". You can customize responses above!</p>
+    </section>
+
+    <section id="step5">
+      <h2>Step 5: Publishing Your Website</h2>
+      <p>After creating your website, the final step is to publish it so others can see it online. Here's a detailed guide for publishing your website easily:</p>
+
+      <h3>Using GitHub Pages (Free & Popular for Beginners)</h3>
+      <ol>
+        <li><strong>Create a GitHub Account:</strong> Go to <a href="https://github.com" target="_blank" rel="noopener">GitHub</a> and sign up for a free account if you don't have one.</li>
+        <li><strong>Create a New Repository:</strong> After logging in, click the "+" icon at the top-right corner and select "New repository". Name it something like <code>my-website</code>.</li>
+        <li><strong>Upload Your Files:</strong> In your new repository, click "Add file" &rarr; "Upload files". Upload your website files including the HTML file you created with the template generator. Commit the changes.</li>
+        <li><strong>Enable GitHub Pages:</strong> Go to the "Settings" tab of your repository, scroll down to the "Pages" section.</li>
+        <li><strong>Select Source:</strong> Under "Branch", select <code>main</code> (or <code>master</code> if your repository uses that branch) and click "Save".</li>
+        <li><strong>Access Your Website:</strong> GitHub will display your website URL (usually <code>https://yourusername.github.io/repositoryname</code>). It might take a few minutes for your site to go live.</li>
+      </ol>
+
+      <h4>Tips:</h4>
+      <ul>
+        <li>For your homepage, name the main file <code>index.html</code>; GitHub Pages automatically loads it.</li>
+        <li>If you want to update your website later, upload new files or edit existing ones in your repository.</li>
+        <li>GitHub also lets you edit files directly in the browser for quick changes.</li>
+      </ul>
+
+      <h3>Other Easy Platforms</h3>
+      <p>If you find GitHub Pages a bit challenging, here are other platforms with user-friendly interfaces:</p>
+      <ul>
+        <li><a href="https://netlify.com" target="_blank" rel="noopener">Netlify</a> - Drag and drop your site folder to deploy instantly.</li>
+        <li><a href="https://vercel.com" target="_blank" rel="noopener">Vercel</a> - Simple deployments with free hosting.</li>
+        <li><a href="https://glitch.com" target="_blank" rel="noopener">Glitch</a> - Online editor and hosting for small projects.</li>
+      </ul>
+
+      <p>Publishing your website is easier than you think! Take your time, follow these steps, and soon your site will be live for the world to visit.</p>
+    </section>
+
+    <section id="generator">
+      <h2>Create Your Website Template</h2>
+      <div class="generator">
+        <p>Fill the form below to generate your own basic website template.</p>
+        <form id="website-form">
+          <label for="titleInput">Website Title</label>
+          <input type="text" id="titleInput" placeholder="My Awesome Site" required />
+
+          <label for="headingInput">Page Heading</label>
+          <input type="text" id="headingInput" placeholder="Welcome to My Awesome Site" required />
+
+          <label for="descriptionInput">Description / Paragraph</label>
+          <textarea id="descriptionInput" rows="4" placeholder="This website showcases my projects, blog, and more." required></textarea>
+
+          <button type="submit">Generate My Website</button>
+        </form>
+
+        <label for="generatedCode" style="margin-top: 25px; font-weight: 700;">Your Generated Website Code (HTML):</label>
+        <textarea id="generatedCode" class="generated-code" readonly></textarea>
+      </div>
+    </section>
+
+    <section id="resources">
+      <h2>Resources</h2>
+      <p>Here are some useful links to help you learn more and improve your skills:</p>
+      <ul>
+        <li><a href="https://www.w3schools.com/" target="_blank" rel="noopener">W3Schools</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener">MDN Web Docs - HTML</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener">MDN Web Docs - CSS</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener">MDN Web Docs - JavaScript</a></li>
+        <li><a href="https://www.freecodecamp.org/" target="_blank" rel="noopener">FreeCodeCamp</a></li>
+        <li><a href="https://css-tricks.com/" target="_blank" rel="noopener">CSS-Tricks</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Learn to Make a Website | Created with ❤️ for Teens</p>
+  </footer>
+
+  <script>
+    // Website Template Generator
+    document.getElementById('website-form').addEventListener('submit', function(event){
+      event.preventDefault();
+      const title = document.getElementById('titleInput').value.trim() || 'My Website';
+      const heading = document.getElementById('headingInput').value.trim() || 'Welcome!';
+      const description = document.getElementById('descriptionInput').value.trim() || 'This is my website created with the template generator.';
+
+      const generatedHTML = \`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>\${title}</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px 20px;
+      background: linear-gradient(45deg, #4caf50, #009688);
+      color: white;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.7rem;
+      margin-bottom: 15px;
+      letter-spacing: 1.6px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    p {
+      font-size: 1.4rem;
+      max-width: 600px;
+      line-height: 1.5;
+      margin-top: 0;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    }
+    a {
+      margin-top: 25px;
+      background: #68d391;
+      color: #004d40;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 10px 25px;
+      border-radius: 10px;
+      box-shadow: 0 7px 18px rgba(104,211,145,0.54);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      display: inline-block;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    a:hover {
+      background: #48bb78;
+      box-shadow: 0 9px 22px rgba(72,187,120,0.75);
+    }
+  </style>
+</head>
+<body>
+  <h1>\${heading}</h1>
+  <p>\${description}</p>
+  <a href="#" onclick="alert('More features coming soon!'); return false;">Learn More</a>
+</body>
+</html>  
+      \`;
+
+      const outputArea = document.getElementById('generatedCode');
+      outputArea.value = generatedHTML;
+      outputArea.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Chatbot JavaScript
+    (function(){
+      const messagesContainer = document.getElementById('chat-messages');
+      const inputField = document.getElementById('chat-input');
+      const sendButton = document.getElementById('send-button');
+      const responsesTextarea = document.getElementById('chatbot-json');
+
+      // Default chatbot responses loaded from JSON textarea initially
+      let chatbotResponses = {};
+      function loadResponses() {
+        try {
+          chatbotResponses = JSON.parse(responsesTextarea.value);
+          appendBotMessage('Chatbot responses updated successfully!');
+        } catch(e) {
+          appendBotMessage('Error parsing JSON! Please check your format.');
+        }
+      }
+
+      function appendMessage(text, sender) {
+        const messageElem = document.createElement('div');
+        messageElem.classList.add('chat-message', sender);
+        messageElem.textContent = text;
+        messagesContainer.appendChild(messageElem);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+      function appendUserMessage(text) {
+        appendMessage(text, 'user');
+      }
+      function appendBotMessage(text) {
+        appendMessage(text, 'bot');
+      }
+
+      function getBotResponse(userInput) {
+        const input = userInput.toLowerCase().trim();
+        if(chatbotResponses[input]) {
+          return chatbotResponses[input];
+        }
+        return chatbotResponses['default'] || "Sorry, I don't understand that.";
+      }
+
+      sendButton.addEventListener('click', () => {
+        const userText = inputField.value.trim();
+        if(!userText) return;
+        appendUserMessage(userText);
+        inputField.value = '';
+        // Simulate bot thinking time
+        setTimeout(() => {
+          const botReply = getBotResponse(userText);
+          appendBotMessage(botReply);
+        }, 500);
+      });
+
+      // Allow pressing Enter key to send message
+      inputField.addEventListener('keydown', function(event) {
+        if(event.key === 'Enter') {
+          sendButton.click();
+          event.preventDefault();
+        }
+      });
+
+      document.getElementById('update-responses').addEventListener('click', loadResponses);
+
+      // Load initial responses on page load
+      window.addEventListener('load', loadResponses);
+    })();
+  </script>
+</body>
+</html>
+
